@@ -112,22 +112,25 @@ public class ListImplement implements List{
     @Override
     public boolean addAll(int i, Collection collection) {
         Object[] arr = collection.toArray();
-        int k = 0;
         int length = 0;
         int length1 = 0;
+        String[] arreglo1 = arreglo.clone();
+
         while(arr[length] != null){
             length++;
         }
         while(arreglo[length1] != null){
             length1++;
         }
+
         for(int j = i; j<length1; j++){
-            arreglo[j+length] = arreglo[j];
-            if(arr[k] != null){
-                arreglo[j] = (String) arr[k];
-            }
-            k++;
+            arreglo[j+length] = arreglo1[j];
         }
+
+        for(int j = 0; j<length; j++){
+            arreglo[j+i] = (String) arr[j];
+        }
+
         return true;
     }
 
@@ -188,8 +191,12 @@ public class ListImplement implements List{
 
     @Override
     public void add(int i, Object o) {
-        if(arreglo[i-1] != null){
-            arreglo[i]= (String) o;
+        String[] arreglo1 = arreglo.clone();
+        if(arreglo[i-1] != null || i == 0){
+            arreglo[i] = (String) o;
+            for(int j = i; j<size();j++){
+                arreglo[j+1] = arreglo1[j];
+            }
         }
     }
 
@@ -197,6 +204,7 @@ public class ListImplement implements List{
     public Object remove(int i) {
         while(arreglo[i] != null){
             arreglo[i] = arreglo[i+1];
+            i++;
         }
         return null;
     }
